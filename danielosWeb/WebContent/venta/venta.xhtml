@@ -4,35 +4,49 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<f:metadata>
+<!--<f:metadata>
 	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
 		type="preRenderView"></f:event>
-</f:metadata>
+</f:metadata>-->
 <h:head>
 	<title>Ventas</title>
 </h:head>
 <body>
-<p:growl>
-	<p:autoUpdate />
-</p:growl>
-<h:form>
-	<p:panel header="Datos de productcos">
-		<p:dataGrid>
-			<p:panel header="Producto">
-				<h:panelGrid columns="2">
-					<!-- Aquí va la información del producto -->
-					<p:commandButton value="Aregar" update="@form" />
-				</h:panelGrid>
-			</p:panel>
-		</p:dataGrid>
-		<p:dataTable>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:panel header="Datos de productcos">
+			<p:dataGrid value="#{beanVenta.listaProductos}" var="p">
+				<p:panel header="Producto">
+					<h:panelGrid columns="2">
+						<h:outputText value="Nombre" />
+						<h:outputText value="#{p.nombre}" />
+						<h:outputText value="Clasificación" />
+						<h:outputText value="#{p.prodClasificacion.tipoClasificacion}" />
+						<h:outputText value="Descripcion" />
+						<h:outputText value="#{p.descripcion}" />
+
+						<h:outputText value="Precio" />
+						<h:outputText value="#{p.precio}" />
+
+						<p:column headerText="Imágen">
+							<h:graphicImage value="#{p.imagen}"
+								style="max-width:30%;width:auto;height:auto;" />
+						</p:column>
+						<p:commandButton value="Aregar" update="@form" />
+
+					</h:panelGrid>
+				</p:panel>
+			</p:dataGrid>
+			<!--<p:dataTable>-->
 			<!-- Aquí va la lista del carrito-->
 			<!-- Aquí va la inforamción de cada producto-->
-			<p:column>
-				<p:commandButton value="Eliminar" update="@form"/>
-			</p:column>
-		</p:dataTable>
-	</p:panel>
-</h:form>
+			<!--<p:column>
+					<p:commandButton value="Eliminar" update="@form" />
+				</p:column>
+			</p:dataTable> -->
+		</p:panel>
+	</h:form>
 </body>
 </html>
