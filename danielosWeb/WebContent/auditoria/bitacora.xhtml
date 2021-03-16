@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Bitácora</title>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+		<h:form>
+			<h:outputText value="Fecha inicio:" />
+			<p:datePicker value="#{beanAudBitacora.fechaInicio}" showTime="true" />
+			<h:outputText value="Fecha fin:" />
+			<p:datePicker value="#{beanAudBitacora.fechaFin}" showTime="true" />
+			<p:commandButton update="@form" value="Consultar" icon="pi pi-clock"
+				actionListener="#{beanAudBitacora.actionListenerConsultarBitacora()}" />
+			<p:dataTable value="#{beanAudBitacora.listaBitacora}" var="b"
+				emptyMessage="No hay registros aún." paginator="true" rows="30">
+				<p:column headerText="ID" style="width:50px">
+					<h:outputText value="#{b.idAudBitacora}" />
+				</p:column>
+				<p:column headerText="FECHA">
+					<h:outputText value="#{b.fechaEvento}" />
+				</p:column>
+				<p:column headerText="USUARIO">
+					<h:outputText value="#{b.idUsuario}" />
+				</p:column>
+				<p:column headerText="IP">
+					<h:outputText value="#{b.direccionIp}" />
+				</p:column>
+				<p:column headerText="CLASE">
+					<h:outputText value="#{b.nombreClase}" />
+				</p:column>
+				<p:column headerText="METODO">
+					<h:outputText value="#{b.nombreMetodo}" />
+				</p:column>
+				<p:column headerText="DESCRIPCIÓN DEL EVENTO" style="width:30%">
+					<h:outputText value="#{b.descripcionEvento}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+</body>
+</html>

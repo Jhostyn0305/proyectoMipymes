@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Menu principal</title>
+</h:head>
+<body>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+	<div align="center">
+		<h:form>
+			<p:panel style="width:50%">
+				<p:staticMessage severity="info" summary="SISTEMA MINIMARKETDEMO"
+					style="width: 100%" />
+				<p:dataView value="#{beanSegLogin.loginDTO.listaModulos}"
+					var="modulo" layout="grid" gridIcon="pi pi-th-large"
+					emptyMessage="No tiene módulos asignados. Consulte al administrador.">
+					<p:dataViewGridItem>
+						<p:commandLink
+							action="#{beanSegLogin.actionMenu(modulo.rutaAcceso)}">
+							<p:panelGrid columns="1">
+								<h:outputText value="#{modulo.nombreModulo}" />
+								<h:outputText value="#{modulo.rutaAcceso}" />
+								<i class="pi pi-slack" style="font-size: 2rem"></i>
+							</p:panelGrid>
+						</p:commandLink>
+					</p:dataViewGridItem>
+				</p:dataView>
+			</p:panel>
+		</h:form>
+	</div>
+</body>
+</html>

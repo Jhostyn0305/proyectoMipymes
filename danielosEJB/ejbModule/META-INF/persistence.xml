@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="pruebaDS" transaction-type="JTA">
+		<jta-data-source>java:/pruebaDS</jta-data-source>
+		<class>danielos.model.core.entities.AudBitacora</class>
+		<class>danielos.model.core.entities.Cliente</class>
+		<class>danielos.model.core.entities.ProdBodega</class>
+		<class>danielos.model.core.entities.ProdClasificacion</class>
+		<class>danielos.model.core.entities.ProdInventario</class>
+		<class>danielos.model.core.entities.Producto</class>
+		<class>danielos.model.core.entities.ProvPedido</class>
+		<class>danielos.model.core.entities.Proveedore</class>
+		<class>danielos.model.core.entities.SegAsignacion</class>
+		<class>danielos.model.core.entities.SegModulo</class>
+		<class>danielos.model.core.entities.SegUsuario</class>
+		<class>danielos.model.core.entities.ThmCargo</class>
+		<class>danielos.model.core.entities.ThmTrabajador</class>
+		<class>danielos.model.core.entities.VentaDetalle</class>
+		<class>danielos.model.core.entities.VentaMaestro</class>
+	</persistence-unit>
+</persistence>

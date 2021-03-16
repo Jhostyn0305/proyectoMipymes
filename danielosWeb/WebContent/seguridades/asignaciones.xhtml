@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Asignaciones</title>
+	<h:outputStylesheet library="css" name="minimarketdemo.css"></h:outputStylesheet>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+		<h:form>
+			<p:panelGrid columns="2" styleClass="top-aligned-columns">
+				<h:panelGroup>
+					<p:selectOneMenu filterMatchMode="contains" filter="true"
+						value="#{beanSegAsignaciones.idSegUsuarioSeleccionado}">
+						<f:selectItem itemLabel="Seleccione el usuario..."
+							noSelectionOption="true" />
+						<f:selectItems value="#{beanSegAsignaciones.listaUsuarios}"
+							var="u" itemLabel="#{u.apellidos} #{u.nombres}"
+							itemValue="#{u.idSegUsuario}"></f:selectItems>
+						<p:ajax update="tablaAsignaciones"
+							listener="#{beanSegAsignaciones.actionListenerSeleccionarUsuario()}"></p:ajax>
+					</p:selectOneMenu>
+					<br />
+					<p:dataTable value="#{beanSegAsignaciones.listaModulos}" var="m"
+						rows="5" paginator="true">
+						<p:column headerText="Módulos:">
+							<h:outputText value="#{m.nombreModulo}" />
+						</p:column>
+						<p:column width="40px">
+							<p:commandButton icon="pi pi-arrow-right" title="asignar"
+								update="@form"
+								actionListener="#{beanSegAsignaciones.actionListenerAsignarModulo(m.idSegModulo)}"></p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+				<h:panelGroup>
+					<p:dataTable id="tablaAsignaciones"
+						value="#{beanSegAsignaciones.listaAsignaciones}" var="asig">
+						<f:facet name="header">
+							<h:outputText value="Asignaciones" />
+						</f:facet>
+						<p:column>
+							<h:outputText value="#{asig.segModulo.nombreModulo}" />
+						</p:column>
+						<p:column width="40px">
+							<p:commandButton icon="pi pi-times-circle" title="eliminar"
+								styleClass="ui-button-danger" update="@form"
+								actionListener="#{beanSegAsignaciones.actionListenerEliminarAsignacionModulo(asig.idSegAsignacion)}"></p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</p:panelGrid>
+		</h:form>
+	</p:panel>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Ventas</title>
+</h:head>
+<body>
+<p:growl>
+	<p:autoUpdate />
+</p:growl>
+<h:form>
+	<p:panel header="Datos de productcos">
+		<p:dataGrid>
+			<p:panel header="Producto">
+				<h:panelGrid columns="2">
+					<!-- Aquí va la información del producto -->
+					<p:commandButton value="Aregar" update="@form" />
+				</h:panelGrid>
+			</p:panel>
+		</p:dataGrid>
+		<p:dataTable>
+			<!-- Aquí va la lista del carrito-->
+			<!-- Aquí va la inforamción de cada producto-->
+			<p:column>
+				<p:commandButton value="Eliminar" update="@form"/>
+			</p:column>
+		</p:dataTable>
+	</p:panel>
+</h:form>
+</body>
+</html>
