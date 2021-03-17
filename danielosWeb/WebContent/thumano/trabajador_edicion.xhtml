@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Trabajador</title>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-arrow-left" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+	<div align="center">
+		<h:form>
+		<h1>ACTUALIZAR TRABAJADOR</h1>
+			<p:panelGrid columns="2">
+				<h:outputText value="Cargo:" />
+				<p:selectOneMenu value="#{beanThumano.idCargo}">
+					<f:selectItems value="#{beanThumano.listaCargo}" var="p" itemLabel="#{p.nombreCargo}" itemValue="#{p.idThmCargo}">
+					</f:selectItems>
+				</p:selectOneMenu>
+				<h:outputText value="Usuario:" />
+				<p:selectOneMenu value="#{beanThumano.idUsuario}">
+					<f:selectItems value="#{beanThumano.listaUsuario}" var="p" itemLabel="#{p.nombres}" itemValue="#{p.idSegUsuario}">
+					</f:selectItems>
+				</p:selectOneMenu>
+				<h:outputText value="Horas Trabajo: " />
+				<p:inputText value="#{beanThumano.edicionTrabajador.horasTrabajo}"
+					required="true" requiredMessage="Ingrese las horas de trabajo." />
+				
+
+				<p:commandButton value="Actualizar" icon="pi pi-save" update="@form"
+					actionListener="#{beanThumano.actionListenerActualizarEdicionTrabajador()}"></p:commandButton>
+				
+			</p:panelGrid>
+		</h:form>
+		</div>
+	</p:panel>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<title>Lista cargos</title>
+</h:head> 
+<body> 
+	<h:form>
+		<p:menubar>
+		<p:menuitem value="Regresar" icon="pi pi-arrow-left" action="menu"/>
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}" icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar Sesion" icon="pi pi-sign-out" 
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+	<h1>LISTA DE CARGOS</h1>
+	<h:form>
+		<p:dataTable value="#{beanThumano.listaCargo}" var="m" emptyMessage="No hay registros aun.">
+			<p:column headerText="ID CARGO">
+				<h:outputText value="#{m.idThmCargo}" />
+			</p:column>
+			<p:column headerText="NOMBRE CARGO">
+				<h:outputText value="#{m.nombreCargo}" />
+			</p:column>
+			<p:column headerText="REMUNERACION MENSUAL">
+				<h:outputText value="#{m.remuneracionMensual}" />
+			</p:column>
+			<p:column headerText="OPCIONES">
+				<p:commandButton icon="pi pi-pencil" title="editar"
+						action="#{beanThumano.actionSeleccionarEdicionCargos(m)}" />
+
+				<p:commandButton icon="pi pi-times-circle" title="eliminar"
+						styleClass="ui-button-danger" update="@form"
+						actionListener="#{beanThumano.actionListenerEliminarCargo(m.idThmCargo)}">
+						<p:confirm header="Confirmación"
+							message="Desea borrar este cargo" icon="pi pi-info-circle" />
+					</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</h:form>
+	</p:panel>
+<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+		responsive="true" width="350">
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no ui-button-flat" />
+		<p:commandButton value="Sí" type="button"
+			styleClass="ui-confirmdialog-yes" />
+	</p:confirmDialog>
+</body> 
+</html>
+

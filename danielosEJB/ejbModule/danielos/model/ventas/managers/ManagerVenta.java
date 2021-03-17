@@ -27,9 +27,14 @@ public class ManagerVenta {
 	public ManagerVenta() {
 		// TODO Auto-generated constructor stub
 	}
-	
 
+	/**
+	 * Consulta todos los productos existentes.
+	 * 
+	 * @return Lista de productos
+	 */
 	public List<Producto> findAllProductos() {
 		return mDAO.findAll(Producto.class);
 	}
+
 }
