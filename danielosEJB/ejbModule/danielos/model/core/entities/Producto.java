@@ -22,8 +22,6 @@ public class Producto implements Serializable {
 
 	private String descripcion;
 
-	private String imagen;
-
 	private String nombre;
 
 	private BigDecimal precio;
@@ -62,14 +60,6 @@ public class Producto implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public String getImagen() {
-		return this.imagen;
-	}
-
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
 	}
 
 	public String getNombre() {

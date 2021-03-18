@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head></h:head>
+<body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="/venta" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+		<p:staticMessage severity="info" summary="Seleccionar Cliente"></p:staticMessage>
+	</h:form>
+	<h:form>
+		<p:dataTable value="#{beanVenta.listaClientes}" var="c"
+			emptyMessage="Cliente sin registrar">
+			<f:facet name="header">
+				<div class="products-table-header">
+					<span style="font-weight: bold">Clientes de Dannielos</span>
+
+				</div>
+			</f:facet>
+			<p:column headerText="CÉDULA" filterBy="#{c.cedula}">
+				<h:outputText value=" #{c.cedula}" />
+			</p:column>
+			<p:column headerText="APELLIDOS">
+				<h:outputText value="#{c.apellido}" />
+			</p:column>
+			<p:column headerText="NOMBRES">
+				<h:outputText value="#{c.nombre}" />
+			</p:column>
+			<p:column headerText="TELÉFONO">
+				<h:outputText value="#{c.celular}" />
+			</p:column>
+			<p:column headerText="EMAIL">
+				<h:outputText value="#{c.email}" />
+			</p:column>
+			<p:column headerText="Vender">
+				<p:commandButton icon="pi pi-check-circle" title="Vender"
+					actionListener="#{beanVenta.actionListenerSeleccionarCliente(c)}"
+					update="formVender" oncomplete="PF('dlgInformacionV').show();" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+
+
+	<!--Pantalla Pop UP para la información de la facturación-->
+	<p:dialog header="Información de la venta" widgetVar="dlgInformacionV"
+		modal="true">
+		<h:form id="formVender">
+			<p:panel>
+				<div class="p-col-12 p-md-4">
+					<h:outputText
+						value="Información: #{beanVenta.cliente.nombre}  #{beanVenta.cliente.apellido}" />
+					<br />
+					<h:outputText value="Identificación: #{beanVenta.cliente.cedula}" />
+					<br />
+					<h:outputText value="Celular: #{beanVenta.cliente.celular}" />
+					<br />
+					<h:outputText value="Email: #{beanVenta.cliente.email}" />
+					<br />
+				</div>
+				<p:dataTable value="#{beanVenta.carrito2}" var="c"
+					emptyMessage="Aún no ha asignado productos a comprar">
+					<f:facet name="header">
+						<div class="products-table-header">
+							<span style="font-weight: bold">Productos a vender</span>
+						</div>
+					</f:facet>
+					<p:column headerText="Nombre:">
+						<h:outputText value=" #{c.producto.nombre}" />
+					</p:column>
+					<p:column headerText="Precio">
+						<h:outputText value="#{c.producto.precio}" />
+					</p:column>
+					<p:column headerText="Descripcion">
+						<h:outputText value="#{c.producto.descripcion}" />
+					</p:column>
+					<p:column headerText="Cantidad: ">
+						<h:outputText value="#{c.cantidad}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</p:dialog>
+</body>
+</html>

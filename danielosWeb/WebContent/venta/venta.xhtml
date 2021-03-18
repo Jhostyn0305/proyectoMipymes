@@ -4,10 +4,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<!--<f:metadata>
+<f:metadata>
 	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
 		type="preRenderView"></f:event>
-</f:metadata>-->
+</f:metadata>
 <h:head>
 	<title>Ventas</title>
 </h:head>
@@ -16,8 +16,22 @@
 		<p:autoUpdate />
 	</p:growl>
 	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar Sesion" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<h:form id="formProductos">
 		<p:panel header="Datos de productcos">
-			<p:dataGrid value="#{beanVenta.listaProductos}" var="p">
+			<p:dataGrid value="#{beanVenta.listaProductos}" var="p"
+				emptyMessage="No hay productos en el Stock por el momento">
 				<p:panel header="Producto">
 					<h:panelGrid columns="2">
 						<h:outputText value="Nombre" />
@@ -26,27 +40,61 @@
 						<h:outputText value="#{p.prodClasificacion.tipoClasificacion}" />
 						<h:outputText value="Descripcion" />
 						<h:outputText value="#{p.descripcion}" />
-
 						<h:outputText value="Precio" />
 						<h:outputText value="#{p.precio}" />
-
-						<p:column headerText="Imágen">
-							<h:graphicImage value="#{p.imagen}"
-								style="max-width:30%;width:auto;height:auto;" />
-						</p:column>
-						<p:commandButton value="Aregar" update="@form" />
-
+						<p:commandButton value="Aregar"
+							actionListener="#{beanVenta.actionListenerSeleccionarProduto(p)}"
+							update="formAñadir" title="Agregar"
+							oncomplete="PF('dlgAñadirCantidad').show();" icon="pi pi-cart" />
 					</h:panelGrid>
 				</p:panel>
 			</p:dataGrid>
-			<!--<p:dataTable>-->
-			<!-- Aquí va la lista del carrito-->
-			<!-- Aquí va la inforamción de cada producto-->
-			<!--<p:column>
-					<p:commandButton value="Eliminar" update="@form" />
+			<p:dataTable value="#{beanVenta.carrito2}" var="cv"
+				emptyMessage="Aún no ha asignado productos a comprar">
+				<p:column headerText="Nombre">
+					<h:outputText value="#{cv.producto.nombre}" />
 				</p:column>
-			</p:dataTable> -->
+				<p:column headerText="Descripción">
+					<h:outputText value="#{cv.producto.descripcion}" />
+				</p:column>
+				<p:column headerText="Precio">
+					<h:outputText value="#{cv.producto.precio}" />
+					<f:facet name="footer">
+						<h:outputText value="Subtotal: #{beanVenta.totalCarrito}" />
+					</f:facet>
+				</p:column>
+				<p:column headerText="Cantidad a comprar">
+					<h:outputText value="#{cv.cantidad}" />
+				</p:column>
+
+			</p:dataTable>
+
 		</p:panel>
 	</h:form>
+	<div class="ui-g-12 " align="center">
+		<h:form>
+			<p:commandButton value="Generar venta"
+				action="#{beanVenta.actionVistaCliente()}" />
+		</h:form>
+	</div>
+	<p:dialog header="¿Cuántos serán vendidos?"
+		widgetVar="dlgAñadirCantidad" modal="true">
+		<h:form id="formAñadir">
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
+			<h:panelGrid columns="2">
+				<h:outputText value="Nombre: #{beanVenta.producto.nombre}" />
+				<br />
+				<h:outputText value="Precio: #{beanVenta.producto.precio}" />
+
+				<p:spinner id="rotate" value="#{beanVenta.cantidad}" min="1"
+					max="#{10}" rotate="true" />
+				<p:commandButton value="Agregar" update="@form,:formProductos"
+					actionListener="#{beanVenta.actionListenerAgregarProductosCarrito()}"
+					icon="pi pi-pencil"></p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
 </body>
 </html>

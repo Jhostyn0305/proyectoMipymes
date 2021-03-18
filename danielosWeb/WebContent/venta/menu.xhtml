@@ -13,7 +13,8 @@
 	<h:form>
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="pi pi-home" action="/menu" />
-			<p:menuitem value="Ver bitácora" icon="pi pi-book" action="venta" />
+			<p:menuitem value="Vender" icon="pi pi-book"
+				action="#{beanVenta.actionMenuVenta()}" />
 			<f:facet name="options">
 				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
 					icon="pi pi-user">
@@ -25,6 +26,18 @@
 		</p:menubar>
 		<p:staticMessage severity="info" summary="Módulo de auditoría"></p:staticMessage>
 	</h:form>
-	<div></div>
+	<!--<div class="card">
+		<h5>Default</h5>
+		<p:carousel value="#{beanVenta.listaProductos}" var="p"
+			responsive="true">
+			<h:outputText value="#{p.prodClasificacion.tipoClasificacion}" />
+			<h:outputText value="#{p.nombre}" />
+			<h:outputText value="#{p.descripcion}" />
+			<h:outputText value="#{p.precio}" />
+			<f:facet name="footer">
+                asds
+            </f:facet>
+		</p:carousel>
+	</div>-->
 </body>
 </html>
