@@ -1,6 +1,7 @@
 package danielos.controller.venta;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +30,7 @@ public class BeanVenta implements Serializable {
 	private Producto producto;
 	private int cantidad;
 	private Cliente cliente;
+	private double subtotalCarrito;
 	private double totalCarrito;
 
 	public BeanVenta() {
@@ -66,7 +68,23 @@ public class BeanVenta implements Serializable {
 	public void actionListenerAgregarProductosCarrito() {
 		carrito2 = mVenta.agregarCarritoFinal(carrito2, producto, cantidad);
 		JSFUtil.crearMensajeINFO("Se ha agregado al carrito");
+		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
 		totalCarrito = mVenta.calcularTotalCarrito(carrito2);
+	}
+
+	public String actionListenerVenderCarrito() {
+		try {
+			mVenta.registrarVenta(carrito2, cliente);
+			JSFUtil.crearMensajeINFO("La venta se ha realizado correctamente");
+			listaProductos = mVenta.findProductosStock();
+			subtotalCarrito = 0;
+			totalCarrito = 0;
+			carrito2 = new ArrayList<VentaDTO>();
+			return "venta";
+		} catch (Exception e) {
+			JSFUtil.crearMensajeWARN("Ha ocurrido un erro" + e);
+			return "";
+		}
 	}
 
 	// Getters and Setter de parámetros
@@ -96,12 +114,12 @@ public class BeanVenta implements Serializable {
 		this.carrito2 = carrito2;
 	}
 
-	public double getTotalCarrito() {
-		return totalCarrito;
+	public double getSubtotalCarrito() {
+		return subtotalCarrito;
 	}
 
-	public void setTotalCarrito(double totalCarrito) {
-		this.totalCarrito = totalCarrito;
+	public void setSubtotalCarrito(double subtotalCarrito) {
+		this.subtotalCarrito = subtotalCarrito;
 	}
 
 	public List<Cliente> getListaClientes() {
@@ -134,6 +152,14 @@ public class BeanVenta implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public double getTotalCarrito() {
+		return totalCarrito;
+	}
+
+	public void setTotalCarrito(double totalCarrito) {
+		this.totalCarrito = totalCarrito;
 	}
 
 }

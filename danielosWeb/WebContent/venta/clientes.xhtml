@@ -84,16 +84,23 @@
 					<p:column headerText="Nombre:">
 						<h:outputText value=" #{c.producto.nombre}" />
 					</p:column>
-					<p:column headerText="Precio">
-						<h:outputText value="#{c.producto.precio}" />
-					</p:column>
+
 					<p:column headerText="Descripcion">
 						<h:outputText value="#{c.producto.descripcion}" />
+					</p:column>
+					<p:column headerText="Precio">
+						<h:outputText value="#{c.producto.precio}" />
+						<f:facet name="footer">
+							<h:outputText value="Total: #{beanVenta.totalCarrito}" />
+						</f:facet>
 					</p:column>
 					<p:column headerText="Cantidad: ">
 						<h:outputText value="#{c.cantidad}" />
 					</p:column>
 				</p:dataTable>
+				<p:commandButton value="Actualizar"
+					action="#{beanVenta.actionListenerVenderCarrito()}"
+					icon="pi pi-pencil"></p:commandButton>
 			</p:panel>
 		</h:form>
 	</p:dialog>

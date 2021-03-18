@@ -31,5 +31,4 @@ public class VentaDTO {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
 }
