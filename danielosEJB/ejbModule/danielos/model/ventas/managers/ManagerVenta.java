@@ -57,6 +57,18 @@ public class ManagerVenta {
 		return listaProductos;
 	}
 
+	public long comprobarCantidadStock(Producto p) {
+		long cantidad = 0;
+		List<ProdBodega> listaStock = mDAO.findAll(ProdBodega.class);
+		for (ProdBodega prodBodega : listaStock) {
+			if (prodBodega.getProducto().equals(p)) {
+				cantidad = prodBodega.getCantidad();
+
+			}
+		}
+		return cantidad;
+	}
+
 	// Métodos para manipular el carrito
 
 	/**
@@ -97,7 +109,7 @@ public class ManagerVenta {
 			carrito.add(nuevo);
 		} else {
 			if (productoEnCarrito(carrito, p)) {
-				throw new Exception("El producto ya ha sido creado, súmele");
+				throw new Exception("El producto ya ha sido seleccionado, súmele");
 			} else {
 				VentaDTO nuevo = new VentaDTO(p, cantidad);
 				carrito.add(nuevo);
@@ -107,6 +119,14 @@ public class ManagerVenta {
 		return carrito;
 	}
 
+	/**
+	 * Suma uno a la cantidad del producto que ya ha sido seleccionado
+	 * 
+	 * @param carrito
+	 * @param p       Producto, para identifacar en cual va a ser sumado
+	 * @return devuelva la lista del carrito sumado
+	 * @J Benalcázar
+	 */
 	public List<VentaDTO> sumarCantidad(List<VentaDTO> carrito, Producto p) {
 		for (VentaDTO ventaDTO : carrito) {
 			if (ventaDTO.getProducto().equals(p)) {
@@ -117,6 +137,14 @@ public class ManagerVenta {
 
 	}
 
+	/**
+	 * Elimina el producto escogido en el carrito
+	 * 
+	 * @param carrito
+	 * @param p       Producto, para identifacar cual elemento será eliminado
+	 * @return devuelve la lista quitado el seleccionado
+	 * @author J Benalcazar
+	 */
 	public List<VentaDTO> eliminarDelCarrito(List<VentaDTO> carrito, Producto p) {
 		int i = 0;
 		for (VentaDTO ventaDTO : carrito) {
@@ -129,6 +157,14 @@ public class ManagerVenta {
 		return carrito;
 	}
 
+	/**
+	 * Resta uno a la cantidad del producto que ya ha sido seleccionado
+	 * 
+	 * @param carrito
+	 * @param p       Producto, para identifacar en cual va a ser restado
+	 * @return devuelva la lista del carrito restado
+	 * @J Benalcázar
+	 */
 	public List<VentaDTO> restarCantidad(List<VentaDTO> carrito, Producto p) {
 		for (VentaDTO ventaDTO : carrito) {
 			if (ventaDTO.getProducto().equals(p)) {
