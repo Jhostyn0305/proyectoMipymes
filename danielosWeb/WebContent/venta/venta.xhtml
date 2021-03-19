@@ -66,7 +66,17 @@
 				<p:column headerText="Cantidad a comprar">
 					<h:outputText value="#{cv.cantidad}" />
 				</p:column>
-
+				<p:column>
+					<p:commandButton
+						actionListener="#{beanVenta.actionListenerSumarCarrito()}"
+						title="Sumar" update="@form" icon="pi pi-plus-circle" />
+					<p:commandButton icon="pi pi-minus-circle" title="Restar"
+						actionListener="#{beanVenta.actionListenerRestarCarrito()}"
+						update="@form" />
+					<p:commandButton icon="pi pi-trash" title="Eliminar"
+						actionListener="#{beanVenta.actionListenerEliminarDelCarrito()}"
+						update="@form" />
+				</p:column>
 			</p:dataTable>
 
 		</p:panel>

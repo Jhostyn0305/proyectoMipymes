@@ -58,6 +58,29 @@ public class ManagerVenta {
 	}
 
 	// Métodos para manipular el carrito
+
+	/**
+	 * Revisa si el producto ya ha sido agregado al carrito anteriormente
+	 * 
+	 * @param carrito
+	 * @param p
+	 * @return true si el producto ya ha sido agregado
+	 * @return false si el producto aún no ha sido asignado
+	 * @author J Benalcázar
+	 */
+	private boolean productoEnCarrito(List<VentaDTO> carrito, Producto p) {
+		if (carrito == null) {
+			return false;
+		} else {
+			for (VentaDTO ventaDTO : carrito) {
+				if (ventaDTO.getProducto().equals(p)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Método para agregar productos al carrito
 	 * 
@@ -65,20 +88,61 @@ public class ManagerVenta {
 	 * @param p
 	 * @param cantidad
 	 * @return lista de productos seleccionados y también su cantidad
+	 * @throws Exception
 	 */
-	public List<VentaDTO> agregarCarritoFinal(List<VentaDTO> carrito, Producto p, int cantidad) {
+	public List<VentaDTO> agregarCarritoFinal(List<VentaDTO> carrito, Producto p, int cantidad) throws Exception {
 		if (carrito == null) {
 			carrito = new ArrayList<VentaDTO>();
 			VentaDTO nuevo = new VentaDTO(p, cantidad);
 			carrito.add(nuevo);
 		} else {
-			VentaDTO nuevo = new VentaDTO(p, cantidad);
-			carrito.add(nuevo);
+			if (productoEnCarrito(carrito, p)) {
+				throw new Exception("El producto ya ha sido creado, súmele");
+			} else {
+				VentaDTO nuevo = new VentaDTO(p, cantidad);
+				carrito.add(nuevo);
+			}
+
 		}
 		return carrito;
 	}
 
-	
+	public List<VentaDTO> sumarCantidad(List<VentaDTO> carrito, Producto p) {
+		for (VentaDTO ventaDTO : carrito) {
+			if (ventaDTO.getProducto().equals(p)) {
+				ventaDTO.setCantidad(ventaDTO.getCantidad() + 1);
+			}
+		}
+		return carrito;
+
+	}
+
+	public List<VentaDTO> eliminarDelCarrito(List<VentaDTO> carrito, Producto p) {
+		int i = 0;
+		for (VentaDTO ventaDTO : carrito) {
+			if (ventaDTO.getProducto().equals(p)) {
+				carrito.remove(i);
+				break;
+			}
+			i++;
+		}
+		return carrito;
+	}
+
+	public List<VentaDTO> restarCantidad(List<VentaDTO> carrito, Producto p) {
+		for (VentaDTO ventaDTO : carrito) {
+			if (ventaDTO.getProducto().equals(p)) {
+				if (ventaDTO.getCantidad() == 1) {
+					eliminarDelCarrito(carrito, ventaDTO.getProducto());
+					break;
+				}
+				ventaDTO.setCantidad(ventaDTO.getCantidad() - 1);
+			}
+		}
+		return carrito;
+
+	}
+
 	// Cálculos respectivos
 	// Subtotal y total
 	/**

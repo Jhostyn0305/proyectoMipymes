@@ -66,10 +66,16 @@ public class BeanVenta implements Serializable {
 	}
 
 	public void actionListenerAgregarProductosCarrito() {
-		carrito2 = mVenta.agregarCarritoFinal(carrito2, producto, cantidad);
-		JSFUtil.crearMensajeINFO("Se ha agregado al carrito");
-		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
-		totalCarrito = mVenta.calcularTotalCarrito(carrito2);
+		try {
+			carrito2 = mVenta.agregarCarritoFinal(carrito2, producto, cantidad);
+			JSFUtil.crearMensajeINFO("Se ha agregado al carrito");
+			subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+			totalCarrito = mVenta.calcularTotalCarrito(carrito2);
+		} catch (Exception e) {
+			JSFUtil.crearMensajeERROR("" + e);
+			e.printStackTrace();
+		}
+
 	}
 
 	public String actionListenerVenderCarrito() {
@@ -82,9 +88,25 @@ public class BeanVenta implements Serializable {
 			carrito2 = new ArrayList<VentaDTO>();
 			return "venta";
 		} catch (Exception e) {
-			JSFUtil.crearMensajeWARN("Ha ocurrido un erro" + e);
+			JSFUtil.crearMensajeWARN("Ha ocurrido un error");
 			return "";
 		}
+	}
+
+	public void actionListenerSumarCarrito() {
+		mVenta.sumarCantidad(carrito2, producto);
+		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+	}
+
+	public void actionListenerRestarCarrito() {
+		mVenta.restarCantidad(carrito2, producto);
+		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+
+	}
+
+	public void actionListenerEliminarDelCarrito() {
+		mVenta.eliminarDelCarrito(carrito2, producto);
+		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
 	}
 
 	// Getters and Setter de parámetros
