@@ -2,6 +2,7 @@ package danielos.model.core.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 /**
@@ -21,7 +22,7 @@ public class VentaDetalle implements Serializable {
 
 	private Long cantidad;
 
-	private Long subtotal;
+	private BigDecimal subtotal;
 
 	//bi-directional many-to-one association to Producto
 	@ManyToOne
@@ -52,11 +53,11 @@ public class VentaDetalle implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Long getSubtotal() {
+	public BigDecimal getSubtotal() {
 		return this.subtotal;
 	}
 
-	public void setSubtotal(Long subtotal) {
+	public void setSubtotal(BigDecimal subtotal) {
 		this.subtotal = subtotal;
 	}
 

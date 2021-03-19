@@ -248,7 +248,7 @@ public class ManagerVenta {
 			vDetalle.setVentaMaestro(vMaestro);
 			vDetalle.setProducto(ventaDTO.getProducto());
 			vDetalle.setCantidad((long) ventaDTO.getCantidad());
-			vDetalle.setSubtotal((long) subtotal);
+			vDetalle.setSubtotal(new BigDecimal(subtotal));
 			mDAO.insertar(vDetalle);
 		}
 		VentaMaestro vMaestroActualizar = (VentaMaestro) mDAO.findById(VentaMaestro.class, vMaestro.getIdVenta());
