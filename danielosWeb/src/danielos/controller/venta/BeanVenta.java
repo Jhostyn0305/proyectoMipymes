@@ -8,9 +8,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import danielos.controller.JSFUtil;
+import danielos.controller.cliente.BeanClientes;
 import danielos.model.cliente.managers.ManagerCliente;
 import danielos.model.core.entities.Cliente;
 import danielos.model.core.entities.Producto;
@@ -37,6 +39,8 @@ public class BeanVenta implements Serializable {
 	private Date fechaInicio;
 	private Date fechaFin;
 	private int cantidadStock;
+	@Inject
+	BeanClientes bClientes;
 
 	public BeanVenta() {
 		// TODO Auto-generated constructor stub
@@ -109,6 +113,8 @@ public class BeanVenta implements Serializable {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			JSFUtil.crearMensajeERROR("" + e);
+			JSFUtil.crearMensajeWARN(
+					"Si se realiza la venta debe, realizar un predido del producto" + producto.getNombre());
 			e.printStackTrace();
 		}
 
@@ -140,6 +146,13 @@ public class BeanVenta implements Serializable {
 	public void actionListenerConsultarFacturas() {
 		listaFacturas = mVenta.findFacturaByFecha(fechaInicio, fechaFin);
 		JSFUtil.crearMensajeINFO("Registros encontrados: " + listaFacturas.size());
+	}
+
+	// Crear clientes
+	public void actionListenerInsertarCliente() {
+		bClientes.actionListenerInsertarNuevoCliente();
+		listaClientes = mCliente.findAllClientes();
+
 	}
 
 	// Getters and Setter de parámetros
@@ -239,6 +252,14 @@ public class BeanVenta implements Serializable {
 
 	public void setCantidadStock(int cantidadStock) {
 		this.cantidadStock = cantidadStock;
+	}
+
+	public BeanClientes getbClientes() {
+		return bClientes;
+	}
+
+	public void setbClientes(BeanClientes bClientes) {
+		this.bClientes = bClientes;
 	}
 
 }
