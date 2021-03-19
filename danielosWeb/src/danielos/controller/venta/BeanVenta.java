@@ -26,7 +26,6 @@ public class BeanVenta implements Serializable {
 	@EJB
 	private ManagerCliente mCliente;
 	private List<Producto> listaProductos;
-	private List<Producto> carrito;
 	private List<VentaDTO> carrito2;
 	private List<Cliente> listaClientes;
 	private List<VentaMaestro> listaFacturas;
@@ -37,6 +36,7 @@ public class BeanVenta implements Serializable {
 	private double totalCarrito;
 	private Date fechaInicio;
 	private Date fechaFin;
+	private int cantidadStock;
 
 	public BeanVenta() {
 		// TODO Auto-generated constructor stub
@@ -103,19 +103,37 @@ public class BeanVenta implements Serializable {
 	}
 
 	public void actionListenerSumarCarrito() {
-		mVenta.sumarCantidad(carrito2, producto);
-		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+		try {
+			mVenta.sumarCantidad(carrito2, producto);
+			subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JSFUtil.crearMensajeERROR("" + e);
+			e.printStackTrace();
+		}
+
 	}
 
 	public void actionListenerRestarCarrito() {
-		mVenta.restarCantidad(carrito2, producto);
-		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+		try {
+			mVenta.restarCantidad(carrito2, producto);
+			subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	public void actionListenerEliminarDelCarrito() {
-		mVenta.eliminarDelCarrito(carrito2, producto);
-		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+		try {
+			mVenta.eliminarDelCarrito(carrito2, producto);
+			subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	// Consultas
@@ -129,14 +147,6 @@ public class BeanVenta implements Serializable {
 	// J Benalcázar
 	public List<Producto> getListaProductos() {
 		return listaProductos;
-	}
-
-	public List<Producto> getCarrito() {
-		return carrito;
-	}
-
-	public void setCarrito(List<Producto> carrito) {
-		this.carrito = carrito;
 	}
 
 	public void setListaProductos(List<Producto> listaProductos) {
@@ -221,6 +231,14 @@ public class BeanVenta implements Serializable {
 
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+
+	public int getCantidadStock() {
+		return cantidadStock;
+	}
+
+	public void setCantidadStock(int cantidadStock) {
+		this.cantidadStock = cantidadStock;
 	}
 
 }

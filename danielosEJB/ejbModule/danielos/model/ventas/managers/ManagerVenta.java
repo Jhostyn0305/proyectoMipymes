@@ -63,11 +63,16 @@ public class ManagerVenta {
 
 	public long comprobarCantidadStock(Producto p) {
 		long cantidad = 0;
+		System.out.println(p.getNombre());
 		List<ProdBodega> listaStock = mDAO.findAll(ProdBodega.class);
 		for (ProdBodega prodBodega : listaStock) {
-			if (prodBodega.getProducto().equals(p)) {
-				cantidad = prodBodega.getCantidad();
-
+			System.out.println("" + prodBodega.getProducto().getNombre() + "      " + p.getNombre());
+			System.out.println(prodBodega.getProducto().equals(p));
+			System.out.println(prodBodega.getProducto().getCodigoProducto() == p.getCodigoProducto());
+			if (prodBodega.getProducto().getCodigoProducto() == p.getCodigoProducto()) {
+				cantidad = prodBodega.getCantidad().longValue();
+				System.out.println("Entra y hace ");
+				break;
 			}
 		}
 		return cantidad;
@@ -79,12 +84,6 @@ public class ManagerVenta {
 	}
 
 	public List<VentaMaestro> findFacturaByFecha(Date fechaInicio, Date fechaFin) {
-		/*
-		 * SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-		 * System.out.println(""); System.out.println("fecha inicio: " +
-		 * format.format(fechaInicio)); System.out.println("fecha fin: " +
-		 * format.format(fechaFin));
-		 */
 		String consulta = "select b from VentaMaestro b where b.fechaVenta between :fechaInicio and :fechaFin";
 		// order by b.fecha_venta
 		Query q = mDAO.getEntityManager().createQuery(consulta, VentaMaestro.class);
@@ -92,6 +91,65 @@ public class ManagerVenta {
 		q.setParameter("fechaFin", fechaFin);
 		return q.getResultList();
 
+	}
+
+	// Métodos para Agregar o Quitar en stock
+	/**
+	 * Resta en el caso de agregar al carrito
+	 * 
+	 * @param producto
+	 * @param cantidad
+	 * @throws Exception
+	 * @author J Benalcázar
+	 */
+	public void restarEnStock(Producto producto, long cantidad) throws Exception {
+		long cantidadStock = comprobarCantidadStock(producto);
+		ProdBodega stock = new ProdBodega();
+		if (cantidad > cantidadStock) {
+			throw new Exception(
+					"No se puede comprar dicha cantidad, hay: " + comprobarCantidadStock(producto) + " en Stock");
+		}
+		List<ProdBodega> listaStock = mDAO.findAll(ProdBodega.class);
+		for (ProdBodega prodBodega : listaStock) {
+			if (prodBodega.getProducto().getCodigoProducto() == producto.getCodigoProducto()) {
+				long resta = prodBodega.getCantidad() - cantidad;
+				stock = prodBodega;
+				stock.setCantidad(resta);
+				mDAO.actualizar(stock);
+			}
+		}
+	}
+
+	/**
+	 * Suma la cantidad que e quite del carrito
+	 * 
+	 * @param producto
+	 * @param cantidad
+	 * @author J Benalcázar
+	 * @throws Exception
+	 */
+	public void sumarEnStock(Producto producto, int cantidad) throws Exception {
+		List<ProdBodega> listaStock = mDAO.findAll(ProdBodega.class);
+		ProdBodega stock = new ProdBodega();
+		if (cantidad == 0) {
+			for (ProdBodega prodBodega : listaStock) {
+				if (prodBodega.getProducto().getCodigoProducto() == producto.getCodigoProducto()) {
+					long suma = prodBodega.getCantidad() + 1;
+					stock = prodBodega;
+					stock.setCantidad(suma);
+					mDAO.actualizar(stock);
+				}
+			}
+		} else {
+			for (ProdBodega prodBodega : listaStock) {
+				if (prodBodega.getProducto().getCodigoProducto() == producto.getCodigoProducto()) {
+					long suma = prodBodega.getCantidad() + cantidad;
+					stock = prodBodega;
+					stock.setCantidad(suma);
+					mDAO.actualizar(stock);
+				}
+			}
+		}
 	}
 	// Métodos para manipular el carrito
 
@@ -127,6 +185,7 @@ public class ManagerVenta {
 	 * @throws Exception
 	 */
 	public List<VentaDTO> agregarCarritoFinal(List<VentaDTO> carrito, Producto p, int cantidad) throws Exception {
+		restarEnStock(p, cantidad);
 		if (carrito == null) {
 			carrito = new ArrayList<VentaDTO>();
 			VentaDTO nuevo = new VentaDTO(p, cantidad);
@@ -149,12 +208,15 @@ public class ManagerVenta {
 	 * @param carrito
 	 * @param p       Producto, para identifacar en cual va a ser sumado
 	 * @return devuelva la lista del carrito sumado
+	 * @throws Exception
 	 * @J Benalcázar
 	 */
-	public List<VentaDTO> sumarCantidad(List<VentaDTO> carrito, Producto p) {
+	public List<VentaDTO> sumarCantidad(List<VentaDTO> carrito, Producto p) throws Exception {
+		restarEnStock(p, 1);
 		for (VentaDTO ventaDTO : carrito) {
 			if (ventaDTO.getProducto().equals(p)) {
 				ventaDTO.setCantidad(ventaDTO.getCantidad() + 1);
+				// Esto recién añadí para probar
 			}
 		}
 		return carrito;
@@ -168,12 +230,15 @@ public class ManagerVenta {
 	 * @param p       Producto, para identifacar cual elemento será eliminado
 	 * @return devuelve la lista quitado el seleccionado
 	 * @author J Benalcazar
+	 * @throws Exception
 	 */
-	public List<VentaDTO> eliminarDelCarrito(List<VentaDTO> carrito, Producto p) {
+	public List<VentaDTO> eliminarDelCarrito(List<VentaDTO> carrito, Producto p) throws Exception {
 		int i = 0;
 		for (VentaDTO ventaDTO : carrito) {
 			if (ventaDTO.getProducto().equals(p)) {
 				carrito.remove(i);
+				// Esto recién añadí
+				sumarEnStock(ventaDTO.getProducto(), ventaDTO.getCantidad());
 				break;
 			}
 			i++;
@@ -187,9 +252,10 @@ public class ManagerVenta {
 	 * @param carrito
 	 * @param p       Producto, para identifacar en cual va a ser restado
 	 * @return devuelva la lista del carrito restado
+	 * @throws Exception
 	 * @J Benalcázar
 	 */
-	public List<VentaDTO> restarCantidad(List<VentaDTO> carrito, Producto p) {
+	public List<VentaDTO> restarCantidad(List<VentaDTO> carrito, Producto p) throws Exception {
 		for (VentaDTO ventaDTO : carrito) {
 			if (ventaDTO.getProducto().equals(p)) {
 				if (ventaDTO.getCantidad() == 1) {
@@ -197,6 +263,9 @@ public class ManagerVenta {
 					break;
 				}
 				ventaDTO.setCantidad(ventaDTO.getCantidad() - 1);
+				// ESto recién añadí
+				// Para probar
+				sumarEnStock(ventaDTO.getProducto(), 0);
 			}
 		}
 		return carrito;

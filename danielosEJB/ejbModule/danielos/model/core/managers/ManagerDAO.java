@@ -116,12 +116,14 @@ public class ManagerDAO {
 		Object o;
 		try {
 			o = em.find(clase, pID);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Error al buscar la informacion especificada (" + pID + ") : " + e.getMessage());
 		}
 		return o;
 	}
+	
 
 	/**
 	 * Finder generico que permite aplicar clausulas where y order by.

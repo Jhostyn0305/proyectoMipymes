@@ -14,8 +14,6 @@ import danielos.model.core.managers.ManagerDAO;
 import danielos.model.core.utils.ModelUtil;
 import danielos.model.seguridades.dto.LoginDTO;
 
-
-
 /**
  * Session Bean implementation class ManagerSeguridades
  */
@@ -97,7 +95,11 @@ public class ManagerSeguridades {
 	 * @return La ruta de acceso al sistema.
 	 * @throws Exception
 	 */
-	public LoginDTO login(int idSegUsuario, String clave) throws Exception {
+	public LoginDTO login(int idSegUsuario, String clave, String direccionIP) throws Exception {
+		// crear DTO:
+		LoginDTO loginDTO = new LoginDTO();
+		loginDTO.setIdSegUsuario(idSegUsuario);
+		loginDTO.setDireccionIP(direccionIP);
 		if (ModelUtil.isEmpty(clave)) {
 			mAuditoria.mostrarLog(getClass(), "login", "Debe indicar una clave " + idSegUsuario);
 			throw new Exception("Debe indicar una clave");
@@ -113,10 +115,8 @@ public class ManagerSeguridades {
 				mAuditoria.mostrarLog(getClass(), "login", "Intento de login usuario desactivado " + idSegUsuario);
 				throw new Exception("El usuario esta desactivado.");
 			}
-			mAuditoria.mostrarLog(getClass(), "login", "Login exitoso " + idSegUsuario);
-			// crear DTO:
-			LoginDTO loginDTO = new LoginDTO();
-			loginDTO.setIdSegUsuario(usuario.getIdSegUsuario());
+			mAuditoria.mostrarLog(loginDTO, getClass(), "login", "Login exitoso " + idSegUsuario);
+			System.out.println("" + loginDTO.getIdSegUsuario());
 			loginDTO.setCorreo(usuario.getCorreo());
 			// obtener la lista de modulos a los que tiene acceso:
 			List<SegAsignacion> listaAsignaciones = findAsignacionByUsuario(usuario.getIdSegUsuario());
