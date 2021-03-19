@@ -15,6 +15,8 @@
 			<p:menuitem value="Regresar" icon="pi pi-home" action="/menu" />
 			<p:menuitem value="Vender" icon="pi pi-book"
 				action="#{beanVenta.actionMenuVenta()}" />
+			<p:menuitem value="Revisar Facturas" icon="pi pi-book"
+				action="#{beanVenta.actionVistaMaestros()}"/>
 			<f:facet name="options">
 				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
 					icon="pi pi-user">

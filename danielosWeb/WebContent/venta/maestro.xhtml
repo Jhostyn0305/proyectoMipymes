@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+
+<h:head>
+	<title>Listado Ventas/Facturas</title>
+</h:head>
+<body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar Sesion" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+		<h:form>
+			<h:outputText value="Fecha inicio:" />
+			<p:datePicker value="#{beanVenta.fechaInicio}" />
+			<h:outputText value="Fecha fin:" />
+			<p:datePicker value="#{beanVenta.fechaFin}" />
+			<p:commandButton update="@form" value="Consultar" icon="pi pi-clock"
+				actionListener="#{beanVenta.actionListenerConsultarFacturas()}" />
+			<p:dataTable value="#{beanVenta.listaFacturas}" var="fc"
+				emptyMessage="No hay registros aun.">
+				<p:column headerText="Cédula">
+					<h:outputText value="#{fc.cliente.cedula}" />
+				</p:column>
+				<p:column headerText="Información Cliente">
+					<h:outputText value="#{fc.cliente.nombre} #{fc.cliente.apellido}" />
+				</p:column>
+				<p:column headerText="Fecha Remitido">
+					<h:outputText value="#{fc.fechaVenta}" />
+				</p:column>
+				<p:column headerText="Subtotal">
+					<h:outputText value="#{fc.subtotal}" />
+				</p:column>
+				<p:column headerText="Total">
+					<h:outputText value="#{fc.total}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+</body>
+</html>

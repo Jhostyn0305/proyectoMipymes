@@ -2,6 +2,7 @@ package danielos.controller.venta;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import danielos.controller.JSFUtil;
 import danielos.model.cliente.managers.ManagerCliente;
 import danielos.model.core.entities.Cliente;
 import danielos.model.core.entities.Producto;
+import danielos.model.core.entities.VentaMaestro;
 import danielos.model.venta.dto.VentaDTO;
 import danielos.model.ventas.managers.ManagerVenta;
 
@@ -27,11 +29,14 @@ public class BeanVenta implements Serializable {
 	private List<Producto> carrito;
 	private List<VentaDTO> carrito2;
 	private List<Cliente> listaClientes;
+	private List<VentaMaestro> listaFacturas;
 	private Producto producto;
 	private int cantidad;
 	private Cliente cliente;
 	private double subtotalCarrito;
 	private double totalCarrito;
+	private Date fechaInicio;
+	private Date fechaFin;
 
 	public BeanVenta() {
 		// TODO Auto-generated constructor stub
@@ -55,6 +60,10 @@ public class BeanVenta implements Serializable {
 		return "clientes";
 	}
 
+	public String actionVistaMaestros() {
+		listaFacturas = mVenta.findAllVentasMaestros();
+		return "maestro";
+	}
 	// Métodos, son llamados desde el Manager Venta
 
 	public void actionListenerSeleccionarProduto(Producto prod) {
@@ -107,6 +116,12 @@ public class BeanVenta implements Serializable {
 	public void actionListenerEliminarDelCarrito() {
 		mVenta.eliminarDelCarrito(carrito2, producto);
 		subtotalCarrito = mVenta.calcularSubTotalCarrito(carrito2);
+	}
+
+	// Consultas
+	public void actionListenerConsultarFacturas() {
+		listaFacturas = mVenta.findFacturaByFecha(fechaInicio, fechaFin);
+		JSFUtil.crearMensajeINFO("Registros encontrados: " + listaFacturas.size());
 	}
 
 	// Getters and Setter de parámetros
@@ -182,6 +197,30 @@ public class BeanVenta implements Serializable {
 
 	public void setTotalCarrito(double totalCarrito) {
 		this.totalCarrito = totalCarrito;
+	}
+
+	public List<VentaMaestro> getListaFacturas() {
+		return listaFacturas;
+	}
+
+	public void setListaFacturas(List<VentaMaestro> listaFacturas) {
+		this.listaFacturas = listaFacturas;
+	}
+
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 }

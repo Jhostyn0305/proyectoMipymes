@@ -1,6 +1,8 @@
 package danielos.model.ventas.managers;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,7 +11,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
+import danielos.model.core.entities.AudBitacora;
 import danielos.model.core.entities.Cliente;
 import danielos.model.core.entities.ProdBodega;
 import danielos.model.core.entities.Producto;
@@ -69,6 +73,26 @@ public class ManagerVenta {
 		return cantidad;
 	}
 
+	public List<VentaMaestro> findAllVentasMaestros() {
+		List<VentaMaestro> listaFactura = mDAO.findAll(VentaMaestro.class);
+		return listaFactura;
+	}
+
+	public List<VentaMaestro> findFacturaByFecha(Date fechaInicio, Date fechaFin) {
+		/*
+		 * SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		 * System.out.println(""); System.out.println("fecha inicio: " +
+		 * format.format(fechaInicio)); System.out.println("fecha fin: " +
+		 * format.format(fechaFin));
+		 */
+		String consulta = "select b from VentaMaestro b where b.fechaVenta between :fechaInicio and :fechaFin";
+		// order by b.fecha_venta
+		Query q = mDAO.getEntityManager().createQuery(consulta, VentaMaestro.class);
+		q.setParameter("fechaInicio", fechaInicio);
+		q.setParameter("fechaFin", fechaFin);
+		return q.getResultList();
+
+	}
 	// Métodos para manipular el carrito
 
 	/**

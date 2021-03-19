@@ -24,6 +24,41 @@
 		</p:menubar>
 		<p:staticMessage severity="info" summary="Seleccionar Cliente"></p:staticMessage>
 	</h:form>
+	
+	
+		<div class="ui-g">
+		<div class="ui-g-10">
+			<div class="ui-g-6">
+				<h:form>
+					<p:panel header="Nuevo Computador" collapsed="true"
+						toggleable="true">
+						<h:panelGrid columns="2">
+							<h:outputText value="Cédula" />
+							<p:inputText value="#{beanComputador.marca}" required="true"
+								requiredMessage="Debe ingresar la marca."></p:inputText>
+							<h:outputText value="Descripción" />
+							<p:inputText value="#{beanComputador.descripcion}"
+								required="true" requiredMessage="Debe ingresar una descripción."></p:inputText>
+							<h:outputText value="Modelo" />
+							<p:inputText value="#{beanComputador.modelo}" required="true"
+								requiredMessage="Debe ingresar un modelo."></p:inputText>
+							<h:outputText value="Precio" />
+							<p:inputText value="#{beanComputador.precio}" required="true"
+								requiredMessage="Debe ingresar un precio."></p:inputText>
+							<h:outputText value="Imagen" />
+							<p:inputText value="#{beanComputador.imagen}" required="true"
+								requiredMessage="Debe ingresar una imagen."></p:inputText>
+							<p:commandButton
+								actionListener="#{beanComputador.actionCrearComputador()}"
+								value="Añadir computador" update="@form,:formDatos"
+								icon="pi pi-save"></p:commandButton>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+		</div>
+	</div>
+	
 	<h:form>
 		<p:dataTable value="#{beanVenta.listaClientes}" var="c"
 			emptyMessage="Cliente sin registrar">
