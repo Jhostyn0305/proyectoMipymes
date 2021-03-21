@@ -20,6 +20,8 @@ public class SegModulo implements Serializable {
 	@Column(name="id_seg_modulo")
 	private Integer idSegModulo;
 
+	private String imagen;
+
 	@Column(name="nombre_modulo")
 	private String nombreModulo;
 
@@ -39,6 +41,14 @@ public class SegModulo implements Serializable {
 
 	public void setIdSegModulo(Integer idSegModulo) {
 		this.idSegModulo = idSegModulo;
+	}
+
+	public String getImagen() {
+		return this.imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public String getNombreModulo() {
