@@ -14,5 +14,11 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="src" path="/danielosEJB"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Downloads/wildfly-22.0.0.Final/modules/system/layers/base/javax/faces/api/main/jboss-jsf-api_2.3_spec-3.0.0.SP04.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Downloads/wildfly-22.0.0.Final/modules/system/layers/base/javax/annotation/api/main/jboss-annotations-api_1.3_spec-2.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Downloads/wildfly-22.0.0.Final/modules/system/layers/base/javax/inject/api/main/jakarta.inject-api-1.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Downloads/wildfly-22.0.0.Final/modules/system/layers/base/javax/enterprise/api/main/jakarta.enterprise.cdi-api-2.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Downloads/wildfly-22.0.0.Final/modules/system/layers/base/javax/ejb/api/main/jboss-ejb-api_3.2_spec-2.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Downloads/wildfly-22.0.0.Final/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_4.0_spec-2.0.0.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

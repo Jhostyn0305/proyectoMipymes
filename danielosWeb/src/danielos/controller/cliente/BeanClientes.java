@@ -78,14 +78,6 @@ public class BeanClientes implements Serializable {
 		}
 	}
 
-	public ManagerCliente getManagerCliente() {
-		return managerCliente;
-	}
-
-	public void setManagerCliente(ManagerCliente managerCliente) {
-		this.managerCliente = managerCliente;
-	}
-
 	public List<Cliente> getListaClientes() {
 		return listaClientes;
 	}
