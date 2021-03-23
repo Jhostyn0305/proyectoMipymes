@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import danielos.model.auditoria.managers.ManagerAuditoria;
-import danielos.model.core.entities.Cliente;
 import danielos.model.core.entities.Producto;
 import danielos.model.core.entities.ProvPedido;
 import danielos.model.core.entities.Proveedore;
@@ -66,7 +65,7 @@ public class ManagerProvPedido {
 		return mDAO.findAll(Producto.class, "codigoProducto");
 	}
 
-	public void insertarProvPedido(Long cantidad , int codigoProducto, String rucCedula, boolean estado)
+	public void insertarProvPedido(Long cantidad , int codigoProducto, String rucCedula, Boolean estado)
 			throws Exception {
 		ProvPedido nuevoProveedor = new ProvPedido();
 		Proveedore prov = em.find(Proveedore.class, rucCedula);
@@ -89,7 +88,7 @@ public class ManagerProvPedido {
 		mDAO.actualizar(proveedor);
 	}
 
-	public void eliminarProvPedido(int idPedido) throws Exception {
+	public void eliminarProvPedido(Integer idPedido) throws Exception {
 		ProvPedido proveedor = (ProvPedido) mDAO.findById(ProvPedido.class, idPedido);
 		mDAO.eliminar(Proveedore.class, proveedor.getIdPedido());
 	}
