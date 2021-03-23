@@ -22,6 +22,8 @@ public class ProvPedido implements Serializable {
 
 	private Long cantidad;
 
+	private Boolean estado;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_pedido")
 	private Date fechaPedido;
@@ -53,6 +55,14 @@ public class ProvPedido implements Serializable {
 
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public Boolean getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 	public Date getFechaPedido() {
