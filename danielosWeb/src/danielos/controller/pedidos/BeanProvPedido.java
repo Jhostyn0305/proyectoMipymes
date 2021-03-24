@@ -51,14 +51,14 @@ public class BeanProvPedido implements Serializable {
 		return "provPedido";
 	}
 
-	public String actionMenuNuevoProveedor() {
+	public String actionMenuNuevoProvPedido() {
 		nuevoProvPedido = new ProvPedido();
 		return "provPedido_nuevo";
 	}
 
 	public void actionListenerInsertarNuevoProvPedido() {
 		try {
-			managerProvPedido.insertarProvPedido(cantidad, codigo_producto, ruc_cedula, estado);
+			managerProvPedido.insertarProvPedido(cantidad, codigo_producto, ruc_cedula);
 			listaProvPedido = managerProvPedido.findAllProvPedido();
 			JSFUtil.crearMensajeINFO("Pedido registrado.");
 		} catch (Exception e) {
@@ -72,7 +72,7 @@ public class BeanProvPedido implements Serializable {
 		return "provPedido_edicion";
 	}
 
-	public void actionListenerActualizarEdicionProveedor() {
+	public void actionListenerActualizarEdicionProvPedido() {
 		try {
 			managerProvPedido.actualizarProvPedido(edicionProvPedido);
 			listaProvPedido = managerProvPedido.findAllProvPedido();
@@ -83,7 +83,7 @@ public class BeanProvPedido implements Serializable {
 		}
 	}
 
-	public void actionListenerEliminarProveedor(Integer idPedido) {
+	public void actionListenerEliminarProvPedido(Integer idPedido) {
 		try {
 			managerProvPedido.eliminarProvPedido(idPedido);
 			listaProvPedido = managerProvPedido.findAllProvPedido();

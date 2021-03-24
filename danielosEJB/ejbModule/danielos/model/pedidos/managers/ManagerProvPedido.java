@@ -65,7 +65,7 @@ public class ManagerProvPedido {
 		return mDAO.findAll(Producto.class, "codigoProducto");
 	}
 
-	public void insertarProvPedido(Long cantidad , int codigoProducto, String rucCedula, Boolean estado)
+	public void insertarProvPedido(Long cantidad , int codigoProducto, String rucCedula)
 			throws Exception {
 		ProvPedido nuevoProveedor = new ProvPedido();
 		Proveedore prov = em.find(Proveedore.class, rucCedula);
@@ -74,8 +74,7 @@ public class ManagerProvPedido {
 		nuevoProveedor.setProveedore(prov);
 		nuevoProveedor.setProducto(prod);
 		nuevoProveedor.setFechaPedido(new Date());
-		nuevoProveedor.setEstado(estado);
-		
+		nuevoProveedor.setEstado(false);
 		mDAO.insertar(nuevoProveedor);
 	}
 
